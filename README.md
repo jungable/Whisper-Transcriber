@@ -137,3 +137,8 @@ Distribué sous **Licence MIT**. Voir [LICENSE.txt](LICENSE.txt) pour plus de d�
 6. Ouvrir une **Pull Request** vers le dépôt principal.
 
 ---
+
+### Auteur
+
+Projet développé par **jungable**.
+
