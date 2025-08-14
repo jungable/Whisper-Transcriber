@@ -1,12 +1,82 @@
-﻿<Window x:Class="Whisper_Transcriber.MainWindow"
+﻿<Window x:Class="WhisperTranscriber.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Whisper_Transcriber"
+        xmlns:local="clr-namespace:WhisperTranscriber"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="Transcripteur Audio Local avec Whisper" Height="650" Width="700" WindowStartupLocation="CenterScreen"
+        Closing="Window_Closing">
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
 
+        <GroupBox Header="Paramètres de Transcription" Grid.Row="0" FontWeight="Bold" Margin="0,0,0,10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Label Grid.Row="0" Grid.Column="0" Content="Modèle Whisper :" VerticalAlignment="Center"/>
+                <ComboBox Grid.Row="0" Grid.Column="1" x:Name="ModelComboBox" SelectedIndex="0" Padding="5" Margin="5">
+                    <ComboBoxItem Content="Base (rapide, précision standard)"/>
+                    <ComboBoxItem Content="Small (plus lent, haute précision)"/>
+                    <ComboBoxItem Content="Medium (lent, très haute précision)"/>
+                    <ComboBoxItem Content="Tiny (très rapide, basse précision)"/>
+                </ComboBox>
+                <TextBlock Grid.Row="1" Grid.Column="1" TextWrapping="Wrap" FontStyle="Italic" FontSize="11" Margin="5,0,5,10">
+                    Note : Pour utiliser un modèle, le fichier correspondant (ex: ggml-small.bin) doit se trouver dans le dossier de l'application.
+                </TextBlock>
+
+                <Label Grid.Row="2" Grid.Column="0" Content="Langue :" VerticalAlignment="Center"/>
+                <ComboBox Grid.Row="2" Grid.Column="1" x:Name="LanguageComboBox" SelectedIndex="0" Padding="5" Margin="5">
+                    <ComboBoxItem Content="Auto-détection"/>
+                    <ComboBoxItem Content="Français"/>
+                    <ComboBoxItem Content="English"/>
+                    <ComboBoxItem Content="Español"/>
+                    <ComboBoxItem Content="Deutsch"/>
+                    <ComboBoxItem Content="Italiano"/>
+                </ComboBox>
+            </Grid>
+        </GroupBox>
+
+        <GroupBox Header="Option 1: Transcription en Direct" Grid.Row="1" FontWeight="Bold">
+            <Button x:Name="LiveTranscribeButton" Content="🎤 Démarrer la transcription en direct" Padding="10" Margin="5" Click="LiveTranscribeButton_Click"/>
+        </GroupBox>
+
+        <Separator Grid.Row="2" Margin="0,10"/>
+
+        <GroupBox Header="Option 2: Transcription depuis un Fichier" Grid.Row="3" FontWeight="Bold">
+            <StackPanel>
+                <Button x:Name="SelectFileButton" Content="Sélectionner un fichier audio..." Padding="10" Margin="5" Click="SelectFileButton_Click"/>
+                <TextBlock x:Name="SelectedFileTextBlock" Text="Aucun fichier sélectionné" Margin="5" FontStyle="Italic" FontWeight="Normal"/>
+                <Button x:Name="TranscribeFileButton" Content="Transcrire le Fichier Sélectionné" Padding="10" FontWeight="Bold" Margin="5,10,5,5" Click="TranscribeFileButton_Click" IsEnabled="False"/>
+            </StackPanel>
+        </GroupBox>
+
+        <TextBox Grid.Row="5" x:Name="ResultTextBox" Margin="0,10" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" IsReadOnly="True" Text="Le texte transcrit apparaîtra ici..."/>
+
+        <StatusBar Grid.Row="6">
+            <StatusBarItem>
+                <TextBlock x:Name="StatusTextBlock" Text="Prêt."/>
+            </StatusBarItem>
+        </StatusBar>
+
+        <Border Grid.RowSpan="7" x:Name="LoadingOverlay" Background="#88000000" Visibility="Collapsed">
+            <TextBlock x:Name="LoadingTextBlock" Text="Traitement en cours, veuillez patienter..." HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" FontSize="22" FontWeight="Bold"/>
+        </Border>
     </Grid>
 </Window>

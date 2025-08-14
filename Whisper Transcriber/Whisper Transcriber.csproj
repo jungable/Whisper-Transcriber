@@ -10,7 +10,21 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="OpenAI" Version="2.3.0" />
+    <PackageReference Include="NAudio" Version="2.2.1" />
+    <PackageReference Include="Whisper.Net" Version="1.8.1" />
+    <PackageReference Include="Whisper.net.Runtime" Version="1.8.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="ggml-base.bin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="ggml-small.bin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="ggml-tiny.bin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
